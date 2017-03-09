@@ -1,0 +1,22 @@
+{
+    "name": "meteorlxy/laravel-wechat",
+    "description": "Wechat package for Laravel",
+	"keywords": ["wechat", "laravel"],
+	"license": "MIT",
+    "authors": [
+        {
+            "name": "Meteor.lxy",
+            "email": "meteor.lxy@foxmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "illuminate/support": "4.*|5.*",
+        "guzzlehttp/guzzle": "~6.2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Meteorlxy\\LaravelWechat\\": "src/"
+        }
+    }
+}
