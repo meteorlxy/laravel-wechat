@@ -1,7 +1,7 @@
 <?php
 namespace Meteorlxy\LaravelWechat\API\Menu;
 
-use Meteorlxy\LaravelWechat\Foundation\WechatAPI;
+use Meteorlxy\LaravelWechat\API\WechatAPI;
 
 class Menu extends WechatAPI {
     protected $url = [

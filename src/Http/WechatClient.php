@@ -1,12 +1,13 @@
 <?php
-namespace Meteorlxy\LaravelWechat\Foundation;
+namespace Meteorlxy\LaravelWechat\Http;
 
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
-use Meteorlxy\LaravelWechat\Exceptions\WechatHttpException;
-use Meteorlxy\LaravelWechat\Contracts\WechatHttpClient as WechatHttpClientContract;
+use Meteorlxy\LaravelWechat\Foundation\WechatComponent;
+use Meteorlxy\LaravelWechat\Exceptions\Http\WechatHttpException;
+use Meteorlxy\LaravelWechat\Contracts\Http\WechatClient as WechatClientContract;
 
-class WechatHttpClient implements WechatHttpClientContract {
+class WechatClient implements WechatClientContract {
 
     use WechatComponent;
 

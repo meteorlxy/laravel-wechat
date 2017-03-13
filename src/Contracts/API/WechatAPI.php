@@ -1,5 +1,5 @@
 <?php
-namespace Meteorlxy\LaravelWechat\Contracts;
+namespace Meteorlxy\LaravelWechat\Contracts\API;
 
 interface WechatAPI {
 

@@ -1,10 +1,10 @@
 <?php
-namespace Meteorlxy\LaravelWechat\Foundation;
+namespace Meteorlxy\LaravelWechat\Foundation\API;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Meteorlxy\LaravelWechat\Exceptions\WechatException;
-use Meteorlxy\LaravelWechat\Contracts\AccessToken as AccessTokenContract;
+use Meteorlxy\LaravelWechat\Contracts\Foundation\AccessToken as AccessTokenContract;
 
 class AccessToken implements AccessTokenContract {
     use WechatComponent;

@@ -1,33 +1,42 @@
 <?php 
 namespace Meteorlxy\LaravelWechat\Message;
 
-abstract class Message {
+use SimpleXMLElement;
+use Illuminate\Support\Collection;
+use Meteorlxy\LaravelWechat\Contracts\Message\Message as MessageContract;
 
-	protected $toUserName;
+class Message extends Collection implements MessageContract {
 
-	protected $fromUserName;
+	protected function getArrayableItems($items) {
+		if ($items instanceof SimpleXMLElement) {
+			return json_decode(json_encode($items), true);
+		}
+		return parent::getArrayableItems($items);
+	}
 
-	protected $createTime;
+	public function toXML() {
+		$xml = new SimpleXMLElement('<xml></xml>');
+		self::putArrayIntoSimpleXML($this->items, $xml);
+		return $xml->asXML();
+	}
 
-	protected $msgType;
-
-	protected $msgId;
-
-	public function __construct(array $message) {
-		foreach ($message as $key => $val) {
-			if (property_exists($this, $key)) {
-				$this->$key = $val;
+	protected static function putArrayIntoSimpleXML(array $array, SimpleXMLElement $simplexml) {
+		foreach ($array as $key => $val) {
+			if (is_array($val)) {
+				self::putArrayIntoSimpleXML($val, $simplexml->addChild($key));
+			} elseif (is_numeric($val)){
+				$simplexml->addChild($key, $val);
+			} else {
+				$simplexml->addChild($key, '<![CDATA['.$val.']]>');
 			}
 		}
 	}
 
-	public function type() {
-		return $this->msgType;
+	public static function make($items = []) {
+		$items['CreateTime'] = time();
+		if (!isset($items['MsgType'])) {
+			$items['MsgType'] = 'text';
+		}
+		return new static($items);
 	}
-
-	public function toXML() {
-		
-	}
-
-	
 }

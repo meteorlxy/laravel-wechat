@@ -1,7 +1,7 @@
 <?php
-namespace Meteorlxy\LaravelWechat\Contracts;
+namespace Meteorlxy\LaravelWechat\Contracts\Http;
 
-interface WechatHttpClient {
+interface WechatClient {
 
     /**
      * Send request to the Wechat API server

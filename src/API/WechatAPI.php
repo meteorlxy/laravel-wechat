@@ -1,7 +1,7 @@
 <?php
-namespace Meteorlxy\LaravelWechat\Foundation;
+namespace Meteorlxy\LaravelWechat\API;
 
-use Meteorlxy\LaravelWechat\Contracts\WechatAPI as WechatAPIContract;
+use Meteorlxy\LaravelWechat\Contracts\API\WechatAPI as WechatAPIContract;
 
 abstract class WechatAPI implements WechatAPIContract{
 
