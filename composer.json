@@ -14,7 +14,7 @@
         "illuminate/http": "5.*",
         "illuminate/support": "5.*",
         "illuminate/cache": "5.*",
-        "nesbot/carbon": "dev-master",
+        "nesbot/carbon": "~1.20",
         "guzzlehttp/guzzle": "~6.2.1",
         "openlss/lib-array2xml": "~0.5.1"
     },
