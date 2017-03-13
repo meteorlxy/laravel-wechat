@@ -3,7 +3,7 @@ namespace Meteorlxy\LaravelWechat\API\Contracts;
 
 use Meteorlxy\LaravelWechat\AccessToken\AccessToken;
 
-abstract class WechatApi {
+abstract class WechatAPI {
     // URL of API
     protected $url;
 
@@ -15,6 +15,10 @@ abstract class WechatApi {
 
     public function __construct(AccessToken $accessToken) {
         $this->setAccessToken($accessToken);
+    }
+
+    public function parseJSON() {
+        
     }
 
 }

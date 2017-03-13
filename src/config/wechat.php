@@ -4,9 +4,12 @@ return [
 
     'debug'     => true,
 
-    'appid'     => env('WECHAT_APPID', 'your-app-id'),          // AppID
-    'appsecret' => env('WECHAT_APPSECRET', 'your-app-secret'),  // AppSecret
-    'token'     => env('WECHAT_TOKEN', 'your-token'),           // Token
-    'aes_key'   => env('WECHAT_AES_KEY', ''),                   // EncodingAESKey
+    'server'    => env('WECHAT_SERVER', 'https://api.weixin.qq.com'),
+    'timeout'   => env('WECHAT_TIMEOUT', 10),
+
+    'appid'     => env('WECHAT_APPID', ''),         // AppID
+    'appsecret' => env('WECHAT_APPSECRET', ''),     // AppSecret
+    'token'     => env('WECHAT_TOKEN', ''),         // Token
+    'aes_key'   => env('WECHAT_AES_KEY', ''),       // EncodingAESKey
 
 ];

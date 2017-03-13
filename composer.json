@@ -11,7 +11,9 @@
     ],
     "require": {
         "php": ">=5.5.0",
-        "illuminate/support": "4.*|5.*",
+        "illuminate/support": "5.*",
+        "illuminate/cache": "5.*",
+        "nesbot/carbon": "dev-master",
         "guzzlehttp/guzzle": "~6.2.1"
     },
     "autoload": {

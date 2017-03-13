@@ -24,9 +24,30 @@ class WechatServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->singleton('wechat', function()
-		{
-			return new WechatApplication(config('wechat'));
+		
+		$this->app->singleton('wechat', function($app) {
+			 $wechat = new WechatApplication(config('wechat'));
+
+			 // Foundation - WechatHttpClient
+			 $wechat->singleton('httpClient', function($wechat) {
+				return new Foundation\WechatHttpClient($wechat);
+			 });
+
+			 // Foundation - AccessToken
+			 $wechat->singleton('accessToken', function($wechat){
+				return new Foundation\AccessToken($wechat);
+			 });
+
+			 // API - Menu
+			 $wechat->singleton('menu', function($wechat){
+				return new API\Menu\Menu($wechat);
+			 });
+
+			 $wechat->singleton('handler', function($wechat){
+				return new Message\Handler\Handler($wechat);
+			 });
+			 
+			 return $wechat;
 		});
 	}
 
@@ -39,3 +60,4 @@ class WechatServiceProvider extends ServiceProvider {
 	{
 		return ['wechat'];
 	}
+}
