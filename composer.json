@@ -11,12 +11,12 @@
     ],
     "require": {
         "php": ">=5.5.0",
+        "ext-libxml": "*",
         "illuminate/http": "5.*",
         "illuminate/support": "5.*",
         "illuminate/cache": "5.*",
         "nesbot/carbon": "~1.20",
-        "guzzlehttp/guzzle": "~6.2.1",
-        "openlss/lib-array2xml": "~0.5.1"
+        "guzzlehttp/guzzle": "~6.2.1"
     },
     "autoload": {
         "psr-4": {
