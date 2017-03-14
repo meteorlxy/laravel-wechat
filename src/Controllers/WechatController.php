@@ -6,28 +6,32 @@ use App\Http\Controllers\Controller;
 
 class WechatController extends Controller {
 
+    /**
+     * The WechatApplication instance
+     *
+     * @var \Meteorlxy\LaravelWechat\WechatApplication
+     */
     protected $wechat;
 
     public function __construct() {
         $this->wechat = $wechat = resolve('wechat');
     }
 
-    public function checkSignature(Request $request) {
-
-		$signature_check = [
-            $this->wechat->config('token'), 
-            $request->timestamp, 
-            $request->nonce
-        ];
-
-        sort($signature_check);
-        $signature_check = implode($signature_check);
-        $signature_check = sha1($signature_check);
-
-        if ($signature_check == $request->signature) {
-            return $request->echostr;
-        } else {
-            return response('invalid', 403);
-        }
-	}
+    /**
+     * Route the wechat url to this method (remember to route in /routes/api.php) | 将公众号配置中填写的URL路由到该方法（记得应写在/routes/api.php中）
+     */
+    public function main(Request $request) {
+        $server = $this->wechat->server;
+        $server->setDefaultHandler(
+            function($message){
+                $reply = [
+                    'ToUserName' => $message->get('FromUserName'),
+                    'FromUserName' => $message->get('ToUserName'),
+                    'Content' => '你好，欢迎使用meteorlxy/laravel-wechat'
+                ];
+                return $reply;
+            }
+        );
+        return $server->handle($request);
+    }
 }

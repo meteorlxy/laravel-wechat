@@ -9,7 +9,7 @@ interface WechatAPI {
      * @param  string   $method
      * @param  string   $url
      * @param  array    $options
-     * @return string
+     * @return mixed
      */
     public function request($method, $url, $options);
 

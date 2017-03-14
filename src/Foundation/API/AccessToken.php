@@ -18,6 +18,8 @@ class AccessToken implements AccessTokenContract {
 
     /**
      *  The Cached key of access_token
+     *
+     * @var string
      */
     protected $key = 'wechat.access_token';
     protected $key_backup = 'wechat.access_token.backup';
@@ -25,7 +27,8 @@ class AccessToken implements AccessTokenContract {
     /**
      * Get the access token from Cache
      *
-     * @return string|bool
+     * @return string
+     *
      * @throws \Meteorlxy\LaravelWechat\Exceptions\WechatException
      */
     public function get() {

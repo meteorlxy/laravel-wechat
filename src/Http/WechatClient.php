@@ -32,6 +32,7 @@ class WechatClient implements WechatClientContract {
      * @param  string   $uri
      * @param  array    $options
      * @return array
+     *
      * @throws \GuzzleHttp\Exception\TransferException
      */
     public function request($method, $uri, $options) {
@@ -54,6 +55,7 @@ class WechatClient implements WechatClientContract {
      *
      * @param  string|\GuzzleHttp\Psr7\Response   $response
      * @return array
+     *
      * @throws \Meteorlxy\LaravelWechat\Exceptions\WechatHttpException
      */
     public function parseResponse($response) {

@@ -14,7 +14,7 @@ interface AccessToken {
      * Update the access token
      *
      * @param  bool     $isForced
-     * @return string
+     * @return bool
      */
     public function update($isForced = false);
 
