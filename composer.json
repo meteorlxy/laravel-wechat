@@ -14,8 +14,8 @@
         "illuminate/http": "5.*",
         "illuminate/support": "5.*",
         "illuminate/cache": "5.*",
-        "nesbot/carbon": "~1.20",
-        "guzzlehttp/guzzle": "~6.2.1"
+        "guzzlehttp/guzzle": "^6.3",
+        "nesbot/carbon": "^1.22"
     },
     "autoload": {
         "psr-4": {
