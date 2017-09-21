@@ -1,7 +1,7 @@
 <?php 
 namespace Meteorlxy\LaravelWechat\Message;
 
-class TextMessage extends BaseMessage{
+class TextMessage extends Message{
 
 	protected $MsgType = 'text';
 

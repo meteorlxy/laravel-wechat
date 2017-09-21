@@ -24,9 +24,10 @@ class WechatServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->singleton('wechat', function($app) {
-			 return new WechatApplication(config('wechat'));
-		});
+			$this->app->singleton('wechat', function($app) {
+				 return new WechatApplication($app->config['wechat']);
+			});
+			$this->app->alias('wechat', WechatApplication::class);
 	}
 
 	/**
@@ -36,6 +37,9 @@ class WechatServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return ['wechat'];
+		return [
+			'wechat',
+			WechatApplication::class,
+		];
 	}
 }

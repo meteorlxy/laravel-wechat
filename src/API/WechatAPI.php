@@ -1,6 +1,7 @@
 <?php
 namespace Meteorlxy\LaravelWechat\API;
 
+use Meteorlxy\LaravelWechat\Foundation\WechatComponent;
 use Meteorlxy\LaravelWechat\Contracts\API\WechatAPI as WechatAPIContract;
 
 abstract class WechatAPI implements WechatAPIContract{
@@ -15,24 +16,21 @@ abstract class WechatAPI implements WechatAPIContract{
      * @param  array    $options
      * @return \Illuminate\Support\Collection
      */
-    public function request($method, $url, $data = null, $options = []) {
+    public function request($method, $url, $data = null, $options = [], $inject_access_token = true) {
 
         $method = strtoupper($method);
 
-        // if(is_array($data)) {
-        //     $options['form_params'] = $data;
-        // } else {
-        //     $options['body'] = $data;
-        // }
         if (null !== $data) {
             $options['body'] = json_encode($data, JSON_UNESCAPED_UNICODE);
         }
-
+        
         // add the access_token into the query string
-        $options['query']['access_token'] = $this->wechat->accessToken->get();
+        if ($inject_access_token) {
+            $options['query']['access_token'] = $this->wechat->accessToken->get();
+        }
 
         // return the Collection of response from the httpClient
-        return collect($this->wechat->httpClient->request($method, $url, $options));
+        return collect($this->wechat->client->request($method, $url, $options));
     }
 
 }

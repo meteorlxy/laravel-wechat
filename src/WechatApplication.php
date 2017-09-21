@@ -1,15 +1,22 @@
 <?php 
 namespace Meteorlxy\LaravelWechat;
 
+use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
 
-class WechatApplication extends Container{
-
-	protected $config;
+class WechatApplication extends Container {
 
 	public function __construct(array $config) {
-		$this->config = $config;
-		$this->registerService();
+			$this->setConfig($config);
+			$this->registerService();
+	}
+	
+	protected function setConfig($config) {
+			$this->instance('config', new Repository($config));
+	}
+
+	public function config($key) {
+			return $this->config[$key];
 	}
 
 	protected function registerService() {
@@ -37,17 +44,16 @@ class WechatApplication extends Container{
 		$this->singleton('menu', function($wechat){
 			return new API\Menu\Menu($wechat);
 		});
+
+		// API - OAuth2
+		$this->singleton('oauth2', function($wechat){
+			return new API\OAuth2\OAuth2($wechat);
+		});
+
+		// API - Template
+		$this->singleton('template', function($wechat){
+			return new API\Template\Template($wechat);
+		});
 	}
 
-	public function config($key) {
-		return $this->config[$key];
-	}
-
-	public function __get($key) {
-		return $this->offsetGet($key);
-	}
-
-	public function __set($key, $value) {
-		return $this->offsetSet($key, $value);
-	}
 }

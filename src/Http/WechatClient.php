@@ -34,7 +34,7 @@ class WechatClient implements WechatClientContract {
      * @return array
      * @throws \GuzzleHttp\Exception\TransferException
      */
-    public function request($method, $uri, $options) {
+    public function request($method, $uri, $options = []) {
         
         $response = $this->client->request($method, $uri, $options);
 
@@ -64,7 +64,7 @@ class WechatClient implements WechatClientContract {
         $result = json_decode($response, true);
 
         if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new WechatHttpException('Failed to parse JSON: '.json_last_error_msg());
+            throw new WechatHttpException('Failed to parse JSON: ' . json_last_error_msg());
         }
 
         // if (isset($result['errcode']) && 0 !== $result['errcode']) {

@@ -47,6 +47,77 @@ WECHAT_TIMEOUTE
 
 4. 使用
 
-随时可以通过```resolve('wechat')```获取实例，可以参考```src/Controllers/WechatController```中的写法
 
-> 注意：接收微信服务器消息的路由应写在```routes/api.php```下
+```php
+<?php
+
+namespace App\Http\Controllers\Wechat;
+
+use Illuminate\Http\Request;
+use Meteorlxy\LaravelWechat\Controllers\WechatController as BaseController;
+
+class WechatController extends BaseController
+{
+    public function listen() {
+        $this->wechat->server->setHandler('text', function($message) {
+            return [
+                'Content' => '文字消息',
+                // 若不设置FromUserName和ToUserName，默认回复给消息来源用户
+                'FromUserName' => $message->ToUserName,
+                'ToUserName' => $message->FromUserName,
+            ];
+        });
+        
+        $this->wechat->server->setHandler('event', function($message) {
+            return [
+                'Content' => '事件消息',
+            ];
+        });
+        
+        $this->wechat->server->setHandler('image', function($message) {
+            return [
+                'Content' => '图片消息',
+            ];
+        });
+        
+        $this->wechat->server->setHandler('voice', function($message) {
+            return [
+                'Content' => '语音消息',
+            ];
+        });
+        
+        $this->wechat->server->setHandler('video', function($message) {
+            return [
+                'Content' => '视频消息',
+            ];
+        });
+        
+        $this->wechat->server->setHandler('shortvideo', function($message) {
+            return [
+                'Content' => '小视频消息',
+            ];
+        });
+        
+        $this->wechat->server->setHandler('location', function($message) {
+            return [
+                'Content' => '地理位置消息',
+            ];
+        });
+        
+        $this->wechat->server->setHandler('link', function($message) {
+            return [
+                'Content' => '链接消息',
+            ];
+        });
+        
+        $this->wechat->server->setDefaultHandler(function($message) {
+            return [
+                'Content' => '默认处理器',
+            ];
+        });
+
+        return $this->wechat->server->handle($request);
+    }
+}
+        
+```

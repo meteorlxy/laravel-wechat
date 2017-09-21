@@ -3,6 +3,7 @@ namespace Meteorlxy\LaravelWechat\Foundation\API;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Meteorlxy\LaravelWechat\Foundation\WechatComponent;
 use Meteorlxy\LaravelWechat\Exceptions\WechatException;
 use Meteorlxy\LaravelWechat\Contracts\Foundation\AccessToken as AccessTokenContract;
 
@@ -30,7 +31,7 @@ class AccessToken implements AccessTokenContract {
      */
     public function get() {
         if (!Cache::has($this->key_backup)) {
-            throw new WechatException('Access token unavailable');
+            $this->update(true);
         }
 
         return Cache::get($this->key_backup);
@@ -53,7 +54,7 @@ class AccessToken implements AccessTokenContract {
             'secret' => $this->wechat->config('appsecret'),
         ];
 
-        $response = $this->wechat->httpClient->request('GET', $this->url ,[
+        $response = $this->wechat->client->request('GET', $this->url ,[
             'query' => $params
         ]);
 
