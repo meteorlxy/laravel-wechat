@@ -6,7 +6,9 @@ use Meteorlxy\LaravelWechat\API\WechatAPI;
 class OAuth2 extends WechatAPI {
     protected $url = [
         'accessToken'        => 'sns/oauth2/access_token',
+        'refreshToken'       => 'sns/oauth2/refresh_token',
         'userinfo'           => 'sns/userinfo',
+        'auth'               => 'sns/auth',
     ];
     
     public function getAuthorizeUrl(string $redirect_uri, bool $userinfo = false, string $state = '') {
@@ -37,6 +39,22 @@ class OAuth2 extends WechatAPI {
             false
         );
     }
+    
+    public function refreshToken($refresh_token) {
+        return $this->request(
+            'GET',
+            $this->url[__FUNCTION__],
+            null,
+            [
+                'query' => [
+                    'appid' => $this->wechat->config('appid'),
+                    'grant_type' => 'refresh_token',
+                    'refresh_token' => $refresh_token,
+                ],
+            ],
+            false
+        );
+    }
 
     public function userinfo($access_token, $openid) {
         return $this->request(
@@ -48,6 +66,21 @@ class OAuth2 extends WechatAPI {
                     'access_token' => $access_token,
                     'openid' => $openid,
                     'lang' => $this->wechat->config('lang'),
+                ],
+            ],
+            false
+        );
+    }
+    
+    public function auth($access_token, $openid) {
+        return $this->request(
+            'GET',
+            $this->url[__FUNCTION__],
+            null,
+            [
+                'query' => [
+                    'access_token' => $access_token,
+                    'openid' => $openid,
                 ],
             ],
             false

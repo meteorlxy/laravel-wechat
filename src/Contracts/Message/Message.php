@@ -3,5 +3,6 @@ namespace Meteorlxy\LaravelWechat\Contracts\Message;
 
 interface Message {
 
-	public function toXML();
+	  public function toXML();
+	  
 }

@@ -59,60 +59,27 @@ use Meteorlxy\LaravelWechat\Controllers\WechatController as BaseController;
 class WechatController extends BaseController
 {
     public function listen() {
-        $this->wechat->server->setHandler('text', function($message) {
+        $this->wechat->server->setHandler(function($message) {
+            switch($message->MsgType) {
+                case 'event' :
+                    $text = '处理文字消息';
+                    break;
+                case 'event' :
+                    $text = '处理事件消息';
+                    break;
+                default:
+                    $text = '默认处理器';
+                    break;
+            }
             return [
-                'Content' => '文字消息',
+                'Content' => $text,
+                
+                // 若不设置MsgType，默认回复为Text消息，则必须设置Content
+                'MsgType' => 'text',
+                
                 // 若不设置FromUserName和ToUserName，默认回复给消息来源用户
                 'FromUserName' => $message->ToUserName,
                 'ToUserName' => $message->FromUserName,
-            ];
-        });
-        
-        $this->wechat->server->setHandler('event', function($message) {
-            return [
-                'Content' => '事件消息',
-            ];
-        });
-        
-        $this->wechat->server->setHandler('image', function($message) {
-            return [
-                'Content' => '图片消息',
-            ];
-        });
-        
-        $this->wechat->server->setHandler('voice', function($message) {
-            return [
-                'Content' => '语音消息',
-            ];
-        });
-        
-        $this->wechat->server->setHandler('video', function($message) {
-            return [
-                'Content' => '视频消息',
-            ];
-        });
-        
-        $this->wechat->server->setHandler('shortvideo', function($message) {
-            return [
-                'Content' => '小视频消息',
-            ];
-        });
-        
-        $this->wechat->server->setHandler('location', function($message) {
-            return [
-                'Content' => '地理位置消息',
-            ];
-        });
-        
-        $this->wechat->server->setHandler('link', function($message) {
-            return [
-                'Content' => '链接消息',
-            ];
-        });
-        
-        $this->wechat->server->setDefaultHandler(function($message) {
-            return [
-                'Content' => '默认处理器',
             ];
         });
 

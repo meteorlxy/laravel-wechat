@@ -15,9 +15,7 @@ class WechatServer implements WechatServerContract {
 
     use WechatComponent;
 
-    protected $middleware;
-    protected $handlers = [];
-    protected $defaultHandlers;
+    protected $handler;
 
     public function handle(Request $request) {
 
@@ -39,25 +37,10 @@ class WechatServer implements WechatServerContract {
             return new Response('400 Bad Request', 400);
         }
 
-        // 调用处理message的handler
-        $reply = $this->handleMessage($message);
-
-        // 生成返回的message
-        if (is_array($reply)) {
-            if (!array_key_exists('FromUserName', $reply)) {
-                $reply['FromUserName'] = $message->ToUserName;
-            }
-            if (!array_key_exists('ToUserName', $reply)) {
-                $reply['ToUserName'] = $message->FromUserName;
-            }
-            $replyMessage = Message::make($reply);
-        } elseif ($reply instanceof Message) {
-            $replyMessage = $reply;
-        } else {
-            throw new WechatException('The return value of handlers must be an array of an instance of Meteorlxy\LaravelWechat\Message\Message');
-        }
+        // 调用处理message的handler并返回处理后的响应消息
+        $response = $this->handleMessage($message);
         
-        return new Response($replyMessage->toXML());
+        return new Response($response);
     }
 
     public function isSignatureInvalid(Request $request) {
@@ -80,32 +63,43 @@ class WechatServer implements WechatServerContract {
     }
 
     public function handleMessage($message) {
-        $msgtype = $message->MsgType;
         
-        if (isset($this->handlers[$msgtype]) && is_callable($this->handlers[$msgtype])) {
-            $handler = $this->handlers[$msgtype];
-        } elseif (isset($this->defaultHandler) && is_callable($this->defaultHandler)) {
-            $handler = $this->defaultHandler;
+        if (!isset($this->handler) || !is_callable($this->handler)) {
+            return 'success';
+        }
+        
+        $result = call_user_func_array($this->handler, [$message]);
+        
+        if (is_string($result)) {
+            $result = [
+                'Content' => $result,
+                'MsgType' => 'text',
+            ];
+        }
+        
+        if (is_array($result)) {
+            if (!array_key_exists('FromUserName', $result)) {
+                $result['FromUserName'] = $message['ToUserName'];
+            }
+            if (!array_key_exists('ToUserName', $result)) {
+                $result['ToUserName'] = $message['FromUserName'];
+            }
+            $replyMessage = Message::make($result);
+        } elseif ($result instanceof Message) {
+            $replyMessage = $result;
         } else {
-            return null;
+            return 'success';
         }
 
-        return call_user_func_array($handler, [$message]);
+        return $replyMessage->toXML();
     }
 
-    public function setHandler($msgtype, $callback) {
+    public function setHandler($callback) {
         if (is_callable($callback)) {
-            $this->handlers[$msgtype] = $callback;
+            $this->handler = $callback;
         } else {
-            throw new WechatException('The handler of ['.$msgtype.'] must be callable');
+            throw new WechatException('The handler must be callable');
         }
     }
 
-    public function setDefaultHandler($callback) {
-        if (is_callable($callback)) {
-            $this->defaultHandler = $callback;
-        } else {
-            throw new WechatException('The default handler must be callable');
-        }
-    }
 }

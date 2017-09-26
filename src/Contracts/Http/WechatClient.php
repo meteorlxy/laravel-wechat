@@ -14,13 +14,4 @@ interface WechatClient {
      */
     public function request($method, $url, $options);
 
-    /**
-     * Parse the JSON response from server
-     *
-     * @param  string|\GuzzleHttp\Psr7\Response   $response
-     * @return array
-     * @throws \Meteorlxy\LaravelWechat\Exceptions\WechatHttpException
-     */
-    public function parseResponse($response);
-
 }

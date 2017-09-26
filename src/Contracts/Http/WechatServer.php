@@ -10,14 +10,4 @@ interface WechatServer {
      */
     public function handle(Request $request);
 
-    /**
-     * Check if the request is from Wechat server
-     */
-    public function isSignatureInvalid(Request $request);
-
-    /**
-     * Parse the XML request and get the message
-     */
-    public function getMessageFromRequest(Request $request);
-
 }

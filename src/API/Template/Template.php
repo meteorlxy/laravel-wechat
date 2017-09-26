@@ -62,7 +62,7 @@ class Template extends WechatAPI {
         return $this->request(
             'POST',
             $this->url[__FUNCTION__], 
-            compact('template')
+            $template
         );
     }
 
